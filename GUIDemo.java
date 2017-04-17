@@ -1,8 +1,9 @@
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.Color;
 import javax.swing.*;
+import java.awt.Graphics;
 
 /**
  * Minimal Java Swing application.
@@ -15,7 +16,8 @@ public class GUIDemo extends JFrame
     private JPanel panel;
     private JButton biggerButton;
     private JButton smallerButton;
-
+	private JButton randomColorButton;
+	private JButton newTitleButton;
     /**
      * Set up the application.
      */
@@ -28,11 +30,17 @@ public class GUIDemo extends JFrame
 		panel = new JPanel();
 		biggerButton = new JButton("BIGGER");
 		smallerButton= new JButton("SMALLER");
+		randomColorButton = new JButton("RANDOM COLOR");
+		newTitleButton = new JButton("new title");
 		biggerButton.addActionListener(new ButtonHandler());
 		smallerButton.addActionListener(new ButtonHandler());
+		randomColorButton.addActionListener(new ButtonHandler());
+		newTitleButton.addActionListener(new ButtonHandler());
 		add(panel);
 		panel.add(biggerButton);
 		panel.add(smallerButton);
+		panel.add(randomColorButton);
+		panel.add(newTitleButton);
 		setVisible(true);
     }
 
@@ -49,15 +57,24 @@ public class GUIDemo extends JFrame
         public void actionPerformed(ActionEvent e)
         {
             Dimension size = getSize();
-
+			Graphics g = getGraphics();
             if (e.getSource().equals(biggerButton))
             {
                 setSize(size.width + 10, size.height + 10);
             }
-            else
+            else if(e.getSource().equals(smallerButton))
             {
                 setSize(size.width - 10, size.height - 10);
             }
+			else if(e.getSource().equals(newTitleButton))
+			{
+				setTitle("this is a different title");
+			}
+			else
+			{
+				g.setColor(new Color((int)(Math.random()* 255),(int) (Math.random() * 255),(int) (Math.random() * 255)));
+				g.fillRect(0, 0,(int)size.getWidth(), (int)size.getHeight());
+			}
 
         }
     }
